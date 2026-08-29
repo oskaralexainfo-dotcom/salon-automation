@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fair Eriu — Dublin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --emerald-deep: #0B3D2E;
+    --emerald-mid: #14513E;
+    --moss: #4A7856;
+    --gold: #C9A227;
+    --cream: #F2EFE6;
+    --cream-dim: #E5E0D2;
+    --charcoal: #1A1A18;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--emerald-deep);
+    color: var(--cream);
+    font-family: 'Work Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero {
+    width: 100%;
+    max-width: 720px;
+    padding: 56px 24px 24px;
+    text-align: center;
+  }
+
+  .knot {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    opacity: 0.85;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
+    margin: 0 0 6px;
+    letter-spacing: 0.01em;
+  }
+
+  .tagline {
+    color: var(--gold);
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0 0 28px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--cream-dim);
+    border-top: 1px solid rgba(242,239,230,0.15);
+    padding-top: 18px;
+  }
+
+  .info-row span strong {
+    color: var(--cream);
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--moss);
+    margin-bottom: 2px;
+  }
+
+  .chat-panel {
+    width: 100%;
+    max-width: 720px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--cream);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+    min-height: 480px;
+  }
+
+  .chat-header {
+    padding: 16px 24px;
+    background: var(--emerald-mid);
+    color: var(--cream);
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: var(--charcoal);
+  }
+
+  .msg {
+    max-width: 78%;
+    padding: 11px 16px;
+    border-radius: 14px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+  }
+
+  .msg.assistant {
+    background: var(--cream-dim);
+    align-self: flex-start;
+    border-bottom-left-radius: 3px;
+  }
+
+  .msg.user {
+    background: var(--emerald-deep);
+    color: var(--cream);
+    align-self: flex-end;
+    border-bottom-right-radius: 3px;
+  }
+
+  .msg.typing {
+    background: var(--cream-dim);
+    align-self: flex-start;
+    color: var(--moss);
+    font-style: italic;
+  }
+
+  .input-row {
+    display: flex;
+    padding: 16px;
+    gap: 10px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    background: var(--cream);
+  }
+
+  .input-row input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.15);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+  }
+
+  .input-row input:focus {
+    border-color: var(--moss);
+  }
+
+  .input-row button {
+    background: var(--emerald-deep);
+    color: var(--cream);
+    border: none;
+    border-radius: 10px;
+    padding: 0 22px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .input-row button:hover {
+    background: var(--emerald-mid);
+  }
+
+  .input-row button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .msg { animation: rise 0.22s ease; }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <svg class="knot" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 15 C25 15, 15 35, 30 50 C15 65, 25 85, 50 85 C75 85, 85 65, 70 50 C85 35, 75 15, 50 15 Z"
+        stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
+      <path d="M50 30 C40 30, 35 40, 42 50 C35 60, 40 70, 50 70 C60 70, 65 60, 58 50 C65 40, 60 30, 50 30 Z"
+        stroke="#C9A227" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+    <h1>Fair Eriu</h1>
+    <p class="tagline">Beauty Salon · Dublin</p>
+    <div class="info-row">
+      <span><strong>Opening Hours</strong>Mon–Fri 9:00–19:00, Sat 9:00–17:00</span>
+      <span><strong>Services</strong>Nails · Lashes & Brows · Hair · Skincare</span>
+    </div>
+  </div>
+
+  <div class="chat-panel">
+    <div class="chat-header">
+      <span class="dot"></span>
+      Fair Eriu Assistant
+    </div>
+    <div class="messages" id="messages">
+      <div class="msg assistant">Hi there! I'm the Fair Eriu assistant 🌿 I can tell you about our services and prices, and book you in for a convenient time. How can I help?</div>
+    </div>
+    <div class="input-row">
+      <input type="text" id="input" placeholder="Type a message..." autocomplete="off">
+      <button id="send">Send</button>
+    </div>
+  </div>
+
+<script>
+  const sessionId = crypto.randomUUID();
+  const messagesEl = document.getElementById('messages');
+  const inputEl = document.getElementById('input');
+  const sendBtn = document.getElementById('send');
+
+  function addMessage(text, role) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + role;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  async function sendMessage() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    inputEl.value = '';
+    sendBtn.disabled = true;
+
+    const typingEl = addMessage('typing...', 'typing');
+
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, session_id: sessionId })
+      });
+      const data = await response.json();
+      typingEl.remove();
+      addMessage(data.reply, 'assistant');
+    } catch (err) {
+      typingEl.remove();
+      addMessage('Sorry, there was a connection error. Please try again.', 'assistant');
+    }
+
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</body>
+</html>
