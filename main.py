@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+import os
+import json
 
 # Загружаем переменные из .env файла (включая наш API-ключ)
 load_dotenv()
@@ -31,9 +33,23 @@ GOOGLE_CREDENTIALS_FILE = "google-credentials.json"
 CALENDAR_ID = "oskaralexa.info@gmail.com"
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
-credentials = service_account.Credentials.from_service_account_file(
-    GOOGLE_CREDENTIALS_FILE, scopes=SCOPES
-)
+# На своём компьютере мы читаем ключ из файла google-credentials.json.
+# На Railway (и любом другом хостинге) этого файла не будет — там мы передадим
+# то же самое содержимое через переменную окружения GOOGLE_CREDENTIALS_JSON.
+google_credentials_env = os.environ.get("GOOGLE_CREDENTIALS_JSON")
+
+if google_credentials_env:
+    # Мы на хостинге — достаём ключ из переменной окружения
+    credentials_info = json.loads(google_credentials_env)
+    credentials = service_account.Credentials.from_service_account_info(
+        credentials_info, scopes=SCOPES
+    )
+else:
+    # Мы на своём компьютере — читаем ключ из обычного файла
+    credentials = service_account.Credentials.from_service_account_file(
+        GOOGLE_CREDENTIALS_FILE, scopes=SCOPES
+    )
+
 calendar_service = build("calendar", "v3", credentials=credentials)
 
 
