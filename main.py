@@ -38,10 +38,6 @@ SCOPES = ["https://www.googleapis.com/auth/calendar"]
 # то же самое содержимое через переменную окружения GOOGLE_CREDENTIALS_JSON.
 google_credentials_env = os.environ.get("GOOGLE_CREDENTIALS_JSON")
 
-# ВРЕМЕННАЯ ДИАГНОСТИКА — покажет в логах, видит ли Railway переменную вообще.
-# Уберём эту строку, как только разберёмся с проблемой.
-print(f"DEBUG: GOOGLE_CREDENTIALS_JSON длина = {len(google_credentials_env) if google_credentials_env else 0}")
-
 if google_credentials_env:
     # Мы на хостинге — достаём ключ из переменной окружения
     credentials_info = json.loads(google_credentials_env)
